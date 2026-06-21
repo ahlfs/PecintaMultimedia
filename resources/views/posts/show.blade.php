@@ -101,13 +101,9 @@
                     <!-- Likes & Save to Collection Row -->
                     <div class="flex items-center justify-between gap-4">
                         
-                        <!-- Interactive Button Mockups (Likes) -->
+                        <!-- Interactive Button (Likes) -->
                         <div class="flex items-center gap-2">
-                            <!-- LikeButton Component placeholder -->
-                            <button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-red-50 hover:text-red-500 text-slate-600 font-bold text-sm transition-all shadow-sm">
-                                <i class="fa-regular fa-heart text-base text-red-500"></i>
-                                <span>{{ $post->likes_count ?? 0 }} Suka</span>
-                            </button>
+                            @livewire('like-button', ['post' => $post])
                         </div>
 
                         <!-- Save to Collection Button -->
