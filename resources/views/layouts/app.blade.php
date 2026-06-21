@@ -79,7 +79,7 @@
                         <a href="{{ route('collections.index') }}" class="font-semibold {{ request()->routeIs('collections.*') ? 'text-brand-accent' : 'text-slate-600 hover:text-brand-primary' }} transition-colors">
                             <i class="fa-solid fa-folder-open mr-1"></i> Koleksi Saya
                         </a>
-                        <a href="#" class="font-semibold text-slate-600 hover:text-brand-primary transition-colors">
+                        <a href="{{ route('posts.create') }}" class="font-semibold {{ request()->routeIs('posts.create') ? 'text-brand-accent' : 'text-slate-600 hover:text-brand-primary' }} transition-colors">
                             <i class="fa-solid fa-circle-plus mr-1"></i> Unggah Post
                         </a>
                     @endif
