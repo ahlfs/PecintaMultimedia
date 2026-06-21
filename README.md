@@ -104,9 +104,9 @@ Berikut adalah pembagian peran dan tanggung jawab pengembangan fitur dalam proje
 4. **Rizqy Naufal Pradana**
    - **Peran:** Post Module & Upload Developer
    - **Tugas:**
-     - Mengembangkan controller dan logika CRUD untuk entitas `Post` (`PostController`), termasuk penanganan unggah file gambar meme ke `public/uploads/posts`.
-     - Mendesain dan mengimplementasikan UI untuk halaman detail post (`posts.show`) lengkap dengan form/modal untuk menyimpan post ke collection milik sendiri (relasi Many-to-Many).
-     - Membuat halaman pembuatan post (`posts.create`) dan edit post (`posts.edit`).
+      - Mengembangkan controller dan logika CRUD untuk entitas `Post` (`PostController`), termasuk penanganan unggah file gambar meme ke `public/uploads/memes`.
+      - Mendesain dan mengimplementasikan UI untuk halaman detail post (`posts.show`) lengkap dengan form/modal untuk menyimpan post ke collection milik sendiri (relasi Many-to-Many).
+      - Membuat halaman pembuatan post (`posts.create`) dan edit post (`posts.edit`).
 
 5. **Afriza Marshal Verdiasta**
    - **Peran:** Livewire Interactive Features Developer
@@ -121,5 +121,13 @@ Berikut adalah pembagian peran dan tanggung jawab pengembangan fitur dalam proje
 *   **Lazy Loading:** Terapkan lazy loading pada aset gambar (misalnya pada layout masonry feed) untuk mengurangi waktu pemuatan halaman awal dan menghemat penggunaan bandwidth.
 *   **Pagination:** Gunakan pagination untuk membatasi jumlah data yang ditampilkan sekaligus dalam satu halaman (misalnya pada halaman pencarian, beranda, atau collection) agar performa aplikasi tetap optimal.
 
-## 8. Batasan
+## 8. Aturan Aset & Struktur Kode
+*   **Penyimpanan Aset Gambar:**
+    - Semua aset gambar/meme feed yang diunggah harus disimpan ke folder `public/uploads/memes`.
+    - Semua foto profil pengguna yang diunggah harus disimpan ke folder `public/uploads/profile-pictures`.
+*   **Pemisahan Struktur Kode:**
+    - Penulisan kode harus memisahkan struktur HTML (Blade), CSS, dan JS secara terpisah.
+    - File CSS dan JS kustom harus ditempatkan di folder `public/assets`.
+
+## 9. Batasan
 *   **Dilarang menggunakan, menambah, atau mengubah yang tidak ditentukan pada rancangan diatas**
