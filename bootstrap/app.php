@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'manual.auth' => \App\Http\Middleware\ManualAuth::class,
+            'manual.guest' => \App\Http\Middleware\ManualGuest::class,
+            'ShareAuthUser' => \App\Http\Middleware\ShareAuthUser::class,
+        ]);
+
+        $middleware->appendToGroup('web', \App\Http\Middleware\ShareAuthUser::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
