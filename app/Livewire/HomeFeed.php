@@ -3,37 +3,44 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use App\Models\Post;
 use Illuminate\Support\Facades\Cache;
 
 class HomeFeed extends Component
 {
-    use WithPagination;
-
     public $search = '';
+    public $loadedCount = 15;
 
     protected $queryString = [
         'search' => ['except' => ''],
     ];
 
-    public function updatingSearch()
+    public function updatedSearch()
     {
-        $this->resetPage();
+        $this->loadedCount = 15;
     }
 
-    public function render()
+    #[On('search-updated')]
+    public function searchUpdated($value)
     {
-        $page = $this->paginators['page'] ?? 1;
-        $searchKey = trim($this->search);
-        
-        // Cache key includes search query and current page to keep pagination cached correctly
-        $cacheKey = 'home_feed_' . md5($searchKey . '_page_' . $page);
-        
-        $posts = Cache::remember($cacheKey, 30, function () use ($searchKey) {
-            return Post::with(['user', 'likes', 'comments'])
-                ->withCount(['likes', 'comments'])
-                ->when($searchKey, function ($query) use ($searchKey) {
+        $this->search = $value;
+        $this->loadedCount = 15;
+    }
+
+    /**
+     * Retrieve and cache the shuffled list of post IDs for the current session/instance.
+     * Caching prevents re-shuffling on every scroll/render cycle.
+     */
+    private function getFeedIds()
+    {
+        $searchHash = md5($this->search);
+        $cacheKey = 'feed_ids_' . $this->getId() . '_' . $searchHash;
+
+        return Cache::remember($cacheKey, 3600, function () {
+            $searchKey = trim($this->search);
+
+            $ids = Post::when($searchKey, function ($query) use ($searchKey) {
                     $query->where(function ($q) use ($searchKey) {
                         $q->where('title', 'like', '%' . $searchKey . '%')
                           ->orWhere('description', 'like', '%' . $searchKey . '%')
@@ -44,11 +51,42 @@ class HomeFeed extends Component
                     });
                 })
                 ->latest()
-                ->paginate(12);
+                ->limit(5000)
+                ->pluck('id')
+                ->toArray();
+
+            shuffle($ids);
+            return $ids;
         });
+    }
+
+    public function loadMore()
+    {
+        $allIds = $this->getFeedIds();
+        if ($this->loadedCount < count($allIds)) {
+            $this->loadedCount += 15;
+        }
+    }
+
+    public function render()
+    {
+        $allIds = $this->getFeedIds();
+        $idsPage = array_slice($allIds, 0, $this->loadedCount);
+
+        $posts = collect();
+        if (!empty($idsPage)) {
+            $posts = Post::whereIn('id', $idsPage)
+                ->withCount(['likes', 'comments'])
+                ->with(['user', 'likes', 'comments'])
+                ->get()
+                ->sortBy(function ($post) use ($idsPage) {
+                    return array_search($post->id, $idsPage);
+                });
+        }
 
         return view('livewire.home-feed', [
-            'posts' => $posts
+            'posts' => $posts,
+            'hasMore' => $this->loadedCount < count($allIds)
         ]);
     }
 }

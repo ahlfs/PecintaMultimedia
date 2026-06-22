@@ -110,7 +110,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->get('/collections/' . $collection->id);
+                         ->get('/collections/' . $collection->slug);
 
         $response->assertStatus(200);
         $response->assertViewIs('collections.show');
@@ -126,7 +126,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->get('/collections/' . $collection->id);
+                         ->get('/collections/' . $collection->slug);
 
         $response->assertStatus(403);
     }
@@ -142,12 +142,12 @@ class CollectionTest extends TestCase
 
         // Owner can view
         $response1 = $this->withSession(['user_id' => $this->user->id])
-                          ->get('/collections/' . $collection->id);
+                          ->get('/collections/' . $collection->slug);
         $response1->assertStatus(200);
 
         // Other user can view
         $response2 = $this->withSession(['user_id' => $this->otherUser->id])
-                          ->get('/collections/' . $collection->id);
+                          ->get('/collections/' . $collection->slug);
         $response2->assertStatus(200);
     }
 
@@ -160,7 +160,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->get('/collections/' . $collection->id . '/edit');
+                         ->get('/collections/' . $collection->slug . '/edit');
 
         $response->assertStatus(200);
         $response->assertViewIs('collections.edit');
@@ -175,7 +175,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->get('/collections/' . $collection->id . '/edit');
+                         ->get('/collections/' . $collection->slug . '/edit');
 
         $response->assertStatus(403);
     }
@@ -191,7 +191,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->put('/collections/' . $collection->id, [
+                         ->put('/collections/' . $collection->slug, [
                              'name' => 'New Name',
                              'description' => 'New description',
                              'is_private' => '1',
@@ -215,7 +215,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->delete('/collections/' . $collection->id);
+                         ->delete('/collections/' . $collection->slug);
 
         $response->assertRedirect('/collections');
         $this->assertDatabaseMissing('collections', [
@@ -232,7 +232,7 @@ class CollectionTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->delete('/collections/' . $collection->id);
+                         ->delete('/collections/' . $collection->slug);
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('collections', [

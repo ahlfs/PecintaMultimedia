@@ -1,4 +1,4 @@
-# [Nama Project]
+# [Gudang Meme]
 
 Project ini merupakan tugas kuliah untuk mata kuliah Pemrograman Web yang berfokus pada pengembangan aplikasi web berbagi foto/gambar yang terinspirasi oleh Pinterest.com.
 
@@ -87,6 +87,11 @@ Berikut adalah pembagian peran dan tanggung jawab pengembangan fitur dalam proje
      - Mengembangkan sistem autentikasi manual menggunakan **Argon2** (`PASSWORD_ARGON2ID`) dan manajemen sesi berbasis custom middleware (`manual.auth`, `manual.guest`, `ShareAuthUser`).
      - Koordinasi integrasi kode antar anggota kelompok.
      - Membuat dan mendesain landing page aplikasi.
+     - Melakukan deployment sistem ke production server (web hosting).
+     - Melakukan pengujian kualitas fungsionalitas dan performa aplikasi (Quality Assurance & Control).
+     - Memastikan responsivitas tampilan antarmuka (UI/UX) di berbagai resolusi perangkat.
+     - Memastikan Keamanan Proses Routing & Upload.
+     - Implementasi Google OAUTH dan Fitur Download Meme
 
 2. **Muhammad Alfiano Akmal Zen**
    - **Peran:** UI/UX Designer & Frontend Auth Developer

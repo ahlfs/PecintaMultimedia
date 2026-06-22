@@ -8,7 +8,7 @@
     <div class="absolute top-20 left-10 w-80 h-80 bg-brand-accent-light/10 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-20 right-10 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto z-10 relative animate-fade-in-up">
+    <div class="max-w-[1600px] mx-auto z-10 relative animate-fade-in-up">
         
         <!-- Back Navigation & Meta Header -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10 border-b border-slate-200/60 pb-6">
@@ -40,14 +40,14 @@
             @if($collection->user_id === session('user_id'))
                 <div class="flex items-center gap-3 self-start md:self-center">
                     <a 
-                        href="{{ route('collections.edit', $collection->id) }}" 
+                        href="{{ route('collections.edit', $collection->slug) }}" 
                         class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-sm transition-all"
                     >
                         <i class="fa-solid fa-pen-to-square mr-2"></i> Edit Koleksi
                     </a>
                     
                     <form 
-                        action="{{ route('collections.destroy', $collection->id) }}" 
+                        action="{{ route('collections.destroy', $collection->slug) }}" 
                         method="POST" 
                         class="form-delete-confirm inline"
                         data-confirm-message="Koleksi '{{ $collection->name }}' beserta seluruh tautan di dalamnya akan dihapus permanen."
@@ -84,33 +84,22 @@
             </div>
         @else
             <!-- Pinterest-like Staggered Grid/Cards -->
-            <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
+            <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4">
                 @foreach($posts as $post)
-                    <div class="break-inside-avoid bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group">
-                        <!-- Post Image -->
-                        <div class="relative overflow-hidden cursor-pointer">
+                    <div class="break-inside-avoid overflow-hidden rounded-2xl group relative mb-4 shadow-sm hover:shadow-lg transition-all duration-300">
+                        <!-- Post Image & Overlay -->
+                        <a href="{{ route('posts.show', $post->slug) }}" class="block relative overflow-hidden bg-slate-100">
                             <img 
                                 src="{{ asset($post->image_path) }}" 
-                                alt="{{ $post->title }}" 
-                                class="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                alt="{{ $post->title }}"
+                                loading="lazy" 
+                                class="w-full h-auto object-cover group-hover:scale-[1.04] transition-transform duration-500"
                             >
                             <!-- Hover Overlay -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                <span class="text-white text-xs font-bold font-sans flex items-center gap-1.5">
-                                    <i class="fa-solid fa-user-circle"></i> {{ $post->user->name }}
-                                </span>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                <h4 class="font-bold text-white text-sm line-clamp-1 leading-snug">{{ $post->title }}</h4>
                             </div>
-                        </div>
-
-                        <!-- Post Info -->
-                        <div class="p-4 border-t border-slate-100">
-                            <h4 class="font-bold text-slate-800 text-sm line-clamp-2 leading-snug group-hover:text-brand-primary transition-colors">
-                                {{ $post->title }}
-                            </h4>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-1">
-                                {{ Str::limit($post->description ?? 'Tidak ada deskripsi.', 50) }}
-                            </p>
-                        </div>
+                        </a>
                     </div>
                 @endforeach
             </div>

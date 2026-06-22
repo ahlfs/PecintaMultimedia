@@ -133,7 +133,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->get('/posts/' . $post->id);
+                         ->get('/posts/' . $post->slug);
 
         $response->assertStatus(200);
         $response->assertViewIs('posts.show');
@@ -149,7 +149,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->get('/posts/' . $post->id . '/edit');
+                         ->get('/posts/' . $post->slug . '/edit');
 
         $response->assertStatus(200);
         $response->assertViewIs('posts.edit');
@@ -165,7 +165,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->get('/posts/' . $post->id . '/edit');
+                         ->get('/posts/' . $post->slug . '/edit');
 
         $response->assertStatus(403);
     }
@@ -186,7 +186,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->put('/posts/' . $post->id, [
+                         ->put('/posts/' . $post->slug, [
                              'title' => 'New Title',
                              'description' => 'New Description',
                              'collection_ids' => [$collection->id],
@@ -219,7 +219,7 @@ class PostTest extends TestCase
         $newImage = UploadedFile::fake()->image('test_new.jpg');
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->put('/posts/' . $post->id, [
+                         ->put('/posts/' . $post->slug, [
                              'title' => 'New Title',
                              'image' => $newImage,
                          ]);
@@ -251,7 +251,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->delete('/posts/' . $post->id);
+                         ->delete('/posts/' . $post->slug);
 
         $response->assertRedirect('/feed');
         $this->assertDatabaseMissing('posts', [
@@ -270,7 +270,7 @@ class PostTest extends TestCase
         ]);
 
         $response = $this->withSession(['user_id' => $this->otherUser->id])
-                         ->delete('/posts/' . $post->id);
+                         ->delete('/posts/' . $post->slug);
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('posts', [
@@ -300,11 +300,11 @@ class PostTest extends TestCase
 
         // Kirim request untuk menyimpan post ke collection1 dan collection2
         $response = $this->withSession(['user_id' => $this->user->id])
-                         ->post('/posts/' . $post->id . '/save', [
+                         ->post('/posts/' . $post->slug . '/save', [
                              'collection_ids' => [$collection1->id, $collection2->id],
                          ]);
 
-        $response->assertRedirect('/posts/' . $post->id);
+        $response->assertRedirect('/posts/' . $post->slug);
         
         $this->assertTrue($collection1->fresh()->posts->contains($post->id));
         $this->assertTrue($collection2->fresh()->posts->contains($post->id));

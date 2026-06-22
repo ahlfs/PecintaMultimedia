@@ -23,7 +23,7 @@
 
         <!-- Form Card -->
         <div class="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden p-8 sm:p-10">
-            <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('posts.update', $post->slug) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -156,7 +156,7 @@
                 <!-- Submit Actions -->
                 <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-end gap-3">
                     <a 
-                        href="{{ route('posts.show', $post->id) }}" 
+                        href="{{ route('posts.show', $post->slug) }}" 
                         class="w-full sm:w-auto text-center px-6 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all"
                     >
                         Batalkan

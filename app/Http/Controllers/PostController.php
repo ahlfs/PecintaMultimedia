@@ -74,9 +74,9 @@ class PostController extends Controller
     /**
      * Tampilkan detail postingan beserta form simpan ke koleksi.
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::with(['user', 'collections'])->findOrFail($id);
+        $post->load(['user', 'collections']);
 
         // Ambil daftar koleksi milik pengguna saat ini untuk form "Simpan ke Koleksi"
         $collections = Collection::where('user_id', session('user_id'))
@@ -89,10 +89,8 @@ class PostController extends Controller
     /**
      * Tampilkan form edit postingan.
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::findOrFail($id);
-
         // Validasi kepemilikan post
         if ($post->user_id !== session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik postingan ini.');
@@ -110,9 +108,8 @@ class PostController extends Controller
     /**
      * Perbarui data postingan di database.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        $post = Post::findOrFail($id);
 
         // Validasi kepemilikan post
         if ($post->user_id !== session('user_id')) {
@@ -164,9 +161,8 @@ class PostController extends Controller
     /**
      * Hapus postingan beserta berkas gambarnya secara fisik.
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
 
         // Validasi kepemilikan post
         if ($post->user_id !== session('user_id')) {
@@ -186,9 +182,8 @@ class PostController extends Controller
     /**
      * Simpan post ke satu atau beberapa koleksi milik pengguna saat ini (tanpa mengganggu kepemilikan user lain).
      */
-    public function saveToCollection(Request $request, $id)
+    public function saveToCollection(Request $request, Post $post)
     {
-        $post = Post::findOrFail($id);
 
         $request->validate([
             'collection_ids' => 'nullable|array',
@@ -209,6 +204,6 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('posts.show', $post->id)->with('success', 'Koleksi penyimpanan post berhasil diperbarui!');
+        return redirect()->route('posts.show', $post->slug)->with('success', 'Koleksi penyimpanan post berhasil diperbarui!');
     }
 }

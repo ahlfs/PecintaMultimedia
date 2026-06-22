@@ -9,9 +9,44 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'slug',
         'description',
         'image_path',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($post) {
+            $post->slug = static::generateUniqueSlug($post->title);
+        });
+
+        static::updating(function ($post) {
+            if ($post->isDirty('title')) {
+                $post->slug = static::generateUniqueSlug($post->title, $post->id);
+            }
+        });
+    }
+
+    protected static function generateUniqueSlug($title, $id = 0)
+    {
+        $slug = \Illuminate\Support\Str::slug($title);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
 
     public function user()
     {

@@ -52,75 +52,87 @@
     <!-- Vite Scripts (for JS reactivity if needed) -->
     @vite(['resources/js/app.js'])
 
+    @livewireStyles
     @stack('styles')
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-accent/20 selection:text-brand-primary" data-session-success="{{ session('success') }}" data-session-error="{{ session('error') }}">
 
     <!-- Glassmorphic Navbar -->
-    <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 glassmorphism rounded-2xl border border-white/40 shadow-xl transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 md:h-18">
-                <!-- Logo & Brand -->
+    <nav class="sticky top-4 mx-auto max-w-[1600px] w-[95%] sm:w-[92%] z-50 glassmorphism rounded-2xl border border-white/40 shadow-xl transition-all duration-300">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-18 gap-4 w-full">
+                <!-- Logo & Brand (Left) -->
                 <div class="flex-shrink-0 flex items-center gap-3">
                     <a href="{{ route('feed') }}" class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-brand-primary flex items-center justify-center shadow-lg shadow-brand-primary/20">
                             <i class="fa-solid fa-images text-white text-lg"></i>
                         </div>
-                        <span class="font-chewy text-2xl md:text-3xl text-brand-primary tracking-wide">Gudang<span class="text-brand-accent">Meme</span></span>
+                        <span class="font-chewy text-2xl md:text-3xl text-brand-primary tracking-wide hidden sm:inline">Gudang<span class="text-brand-accent">Meme</span></span>
                     </a>
                 </div>
 
-                <!-- Navigation Links (Only visible if authenticated or on feed) -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="{{ route('feed') }}" class="font-semibold {{ request()->routeIs('feed') ? 'text-brand-accent' : 'text-slate-600 hover:text-brand-primary' }} transition-colors">
-                        <i class="fa-solid fa-compass mr-1"></i> Eksplorasi
-                    </a>
-                    @if(isset($authUser))
-                        <a href="{{ route('collections.index') }}" class="font-semibold {{ request()->routeIs('collections.*') ? 'text-brand-accent' : 'text-slate-600 hover:text-brand-primary' }} transition-colors">
-                            <i class="fa-solid fa-folder-open mr-1"></i> Koleksi Saya
-                        </a>
-                        <a href="{{ route('posts.create') }}" class="font-semibold {{ request()->routeIs('posts.create') ? 'text-brand-accent' : 'text-slate-600 hover:text-brand-primary' }} transition-colors">
-                            <i class="fa-solid fa-circle-plus mr-1"></i> Unggah Post
-                        </a>
-                    @endif
+                <!-- Search Box (Center) -->
+                <div 
+                    class="flex-grow max-w-xl relative"
+                    x-data="{
+                        handleSearch(e) {
+                            const query = e.target.value;
+                            if (window.location.pathname !== '/feed') {
+                                window.location.href = '/feed?search=' + encodeURIComponent(query);
+                            } else {
+                                this.$dispatch('search-updated', { value: query });
+                            }
+                        }
+                    }"
+                >
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        @input.debounce.300ms="handleSearch($event)"
+                        value="{{ request('search') }}"
+                        placeholder="Cari meme..."
+                        class="block w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 bg-white/60 placeholder-slate-400 text-slate-800 focus:outline-none focus:border-brand-accent focus:ring-4 focus:ring-brand-accent/15 transition-all text-xs shadow-sm"
+                    >
                 </div>
 
-                <!-- CTA / Auth Buttons -->
-                <div class="flex items-center gap-4">
+                <!-- Navigation Links & Profile (Right) -->
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <!-- Nav Icons -->
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <a href="{{ route('feed') }}" class="p-2.5 rounded-xl text-base {{ request()->routeIs('feed') ? 'text-brand-accent bg-brand-accent/5' : 'text-slate-600 hover:text-brand-primary hover:bg-slate-50' }} transition-all" title="Eksplorasi">
+                            <i class="fa-solid fa-compass"></i>
+                        </a>
+                        @if(isset($authUser))
+                            <a href="{{ route('collections.index') }}" class="p-2.5 rounded-xl text-base {{ request()->routeIs('collections.*') ? 'text-brand-accent bg-brand-accent/5' : 'text-slate-600 hover:text-brand-primary hover:bg-slate-50' }} transition-all" title="Koleksi Saya">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </a>
+                            <a href="{{ route('posts.create') }}" class="p-2.5 rounded-xl text-base {{ request()->routeIs('posts.create') ? 'text-brand-accent bg-brand-accent/5' : 'text-slate-600 hover:text-brand-primary hover:bg-slate-50' }} transition-all" title="Unggah Post">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </a>
+                        @endif
+                    </div>
+
+                    <!-- Profile Circle Avatar -->
                     @if(isset($authUser))
-                        <!-- User Menu (Authenticated) -->
-                        <div class="flex items-center gap-3">
-                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 group">
+                        <div class="flex items-center pl-2 border-l border-slate-200">
+                            <a href="{{ route('profile.show') }}" class="flex items-center group" title="Profil & Pengaturan">
                                 <img src="{{ $authUser->profile_photo ? asset($authUser->profile_photo) : 'https://ui-avatars.com/api/?name='.urlencode($authUser->name).'&background=293681&color=fff&bold=true' }}" 
                                      alt="Profile photo" 
-                                     class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm group-hover:scale-105 transition-all">
-                                <div class="hidden lg:flex flex-col text-left">
-                                    <span class="text-sm font-bold text-slate-800 group-hover:text-brand-primary transition-colors leading-none mb-0.5">{{ $authUser->name }}</span>
-                                    <span class="text-xs text-slate-500 font-medium leading-none">@ {{ $authUser->username }}</span>
-                                </div>
+                                     class="w-10 h-10 rounded-full object-cover border-2 {{ request()->routeIs('profile.show') ? 'border-brand-accent' : 'border-slate-200' }} shadow-sm group-hover:scale-105 transition-all">
                             </a>
-                            
-                            <!-- Profile Edit Shortcut -->
-                            <a href="{{ route('profile.edit') }}" title="Edit Profil" class="p-2 rounded-xl text-slate-500 hover:text-brand-primary hover:bg-slate-100/50 transition-all">
-                                <i class="fa-solid fa-gear text-lg"></i>
-                            </a>
-
-                            <!-- Logout Button -->
-                            <form action="{{ route('logout') }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" title="Keluar" class="p-2 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50/50 transition-all cursor-pointer">
-                                    <i class="fa-solid fa-right-from-bracket text-lg"></i>
-                                </button>
-                            </form>
                         </div>
                     @else
                         <!-- Guest Buttons -->
-                        <a href="{{ route('login') }}" class="font-semibold text-slate-600 hover:text-brand-primary px-4 py-2 text-sm transition-colors">
-                            Masuk
-                        </a>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-brand-accent hover:bg-brand-accent/90 font-semibold text-sm transition-all duration-300 shadow-md shadow-brand-accent/15 hover:shadow-lg">
-                            Daftar
-                        </a>
+                        <div class="flex items-center gap-1 pl-2 border-l border-slate-200">
+                            <a href="{{ route('login') }}" class="font-semibold text-slate-600 hover:text-brand-primary px-3 py-2 text-xs transition-colors">
+                                Masuk
+                            </a>
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 rounded-xl text-white bg-brand-accent hover:bg-brand-accent/90 font-semibold text-xs transition-all shadow-md shadow-brand-accent/15">
+                                Daftar
+                            </a>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -145,7 +157,7 @@
                 </div>
                 <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-300">
                     <a href="{{ route('feed') }}" class="hover:text-white transition-colors">Feed Eksplorasi</a>
-                    <a href="{{ isset($authUser) ? route('profile.edit') : route('login') }}" class="hover:text-white transition-colors">Pengaturan Profil</a>
+                    <a href="{{ isset($authUser) ? route('profile.show') : route('login') }}" class="hover:text-white transition-colors">Profil Saya</a>
                     <a href="https://github.com" target="_blank" class="hover:text-white transition-colors">Repositori</a>
                 </div>
             </div>
@@ -158,6 +170,7 @@
 
 
 
+    @livewireScripts
     @stack('scripts')
 </body>
 </html>

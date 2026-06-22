@@ -14,6 +14,9 @@ class CollectionController extends Controller
     {
         $collections = Collection::where('user_id', session('user_id'))
             ->withCount('posts')
+            ->with(['posts' => function ($query) {
+                $query->latest()->limit(3);
+            }])
             ->latest()
             ->paginate(9);
 
@@ -56,9 +59,8 @@ class CollectionController extends Controller
     /**
      * Tampilkan detail koleksi beserta post di dalamnya.
      */
-    public function show($id)
+    public function show(Collection $collection)
     {
-        $collection = Collection::findOrFail($id);
 
         // Jika koleksi rahasia dan bukan milik pengguna saat ini, batalkan akses (403)
         if ($collection->is_private && $collection->user_id !== session('user_id')) {
@@ -73,9 +75,8 @@ class CollectionController extends Controller
     /**
      * Tampilkan form edit koleksi.
      */
-    public function edit($id)
+    public function edit(Collection $collection)
     {
-        $collection = Collection::findOrFail($id);
 
         // Validasi kepemilikan
         if ($collection->user_id !== session('user_id')) {
@@ -88,9 +89,8 @@ class CollectionController extends Controller
     /**
      * Update data koleksi di database.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Collection $collection)
     {
-        $collection = Collection::findOrFail($id);
 
         // Validasi kepemilikan
         if ($collection->user_id !== session('user_id')) {
@@ -119,9 +119,8 @@ class CollectionController extends Controller
     /**
      * Hapus koleksi beserta relasi post di dalamnya (cascading).
      */
-    public function destroy($id)
+    public function destroy(Collection $collection)
     {
-        $collection = Collection::findOrFail($id);
 
         // Validasi kepemilikan
         if ($collection->user_id !== session('user_id')) {

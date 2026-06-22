@@ -43,7 +43,7 @@
                         @if($post->user_id === session('user_id'))
                             <div class="flex items-center gap-2">
                                 <a 
-                                    href="{{ route('posts.edit', $post->id) }}" 
+                                    href="{{ route('posts.edit', $post->slug) }}" 
                                     class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 hover:text-brand-primary hover:border-slate-300 transition-all text-xs font-bold"
                                     title="Edit Postingan"
                                 >
@@ -51,7 +51,7 @@
                                 </a>
                                 
                                 <form 
-                                    action="{{ route('posts.destroy', $post->id) }}" 
+                                    action="{{ route('posts.destroy', $post->slug) }}" 
                                     method="POST" 
                                     class="form-delete-confirm inline"
                                     data-confirm-message="Meme '{{ $post->title }}' akan dihapus permanen beserta semua datanya."
@@ -80,19 +80,17 @@
                         {{ $post->description ?? 'Tidak ada deskripsi tambahan untuk postingan ini.' }}
                     </p>
 
-                    <!-- Author Details Card -->
-                    <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/50 mb-6">
+                    <!-- Author Details -->
+                    <a href="{{ route('profile.show', $post->user->id) }}" class="flex items-center gap-3 mb-6 group inline-flex">
                         <img 
                             src="{{ $post->user->profile_photo ? asset($post->user->profile_photo) : 'https://ui-avatars.com/api/?name='.urlencode($post->user->name).'&background=293681&color=fff&bold=true' }}" 
                             alt="{{ $post->user->name }}" 
-                            class="w-11 h-11 rounded-xl object-cover border border-slate-200"
+                            class="w-10 h-10 rounded-full object-cover border border-slate-200 group-hover:scale-105 transition-transform duration-300"
                         >
                         <div>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Diunggah oleh</p>
-                            <h4 class="text-sm font-extrabold text-slate-800 leading-snug">{{ $post->user->name }}</h4>
-                            <p class="text-xs text-slate-500 font-medium">@ {{ $post->user->username }}</p>
+                            <span class="text-base font-extrabold text-slate-800 group-hover:text-brand-accent transition-colors duration-300">@ {{ $post->user->username }}</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Bottom Section: Interactivity & Collections -->
@@ -157,7 +155,7 @@
                 </div>
 
                 <!-- Modal Body -->
-                <form action="{{ route('posts.save-to-collection', $post->id) }}" method="POST">
+                <form action="{{ route('posts.save-to-collection', $post->slug) }}" method="POST">
                     @csrf
                     <div class="p-6">
                         <p class="text-xs text-slate-500 mb-4 leading-relaxed">

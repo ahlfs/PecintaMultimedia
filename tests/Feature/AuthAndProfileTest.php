@@ -193,4 +193,49 @@ class AuthAndProfileTest extends TestCase
             'bio' => 'New bio description',
         ]);
     }
+
+    /** @test */
+    public function logged_in_users_can_view_profile_dashboard()
+    {
+        $user = User::create([
+            'name' => 'Test User',
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password123'),
+        ]);
+
+        $response = $this->withSession(['user_id' => $user->id])
+                         ->get('/profile');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('profile.show');
+        $response->assertSee('testuser');
+        $response->assertSee('Kiriman');
+        $response->assertSee('Koleksi');
+        $response->assertSee('Suka');
+    }
+
+    /** @test */
+    public function guests_can_access_feed_and_public_profiles_without_login()
+    {
+        $user = User::create([
+            'name' => 'Public User',
+            'username' => 'publicuser',
+            'email' => 'public@example.com',
+            'password' => Hash::make('password123'),
+        ]);
+
+        // Guests can access feed page
+        $feedResponse = $this->get('/feed');
+        $feedResponse->assertStatus(200);
+
+        // Guests can access specific profile page
+        $profileResponse = $this->get('/profile/' . $user->id);
+        $profileResponse->assertStatus(200);
+        $profileResponse->assertSee('publicuser');
+
+        // Guests accessing generic /profile get redirected to login page
+        $genericProfileResponse = $this->get('/profile');
+        $genericProfileResponse->assertRedirect('/login');
+    }
 }

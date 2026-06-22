@@ -4,11 +4,58 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
+    /**
+     * Tampilkan halaman profil pengguna (Instagram-style).
+     */
+    public function show($id = null)
+    {
+        $targetUserId = $id ?? session('user_id');
+        if (!$targetUserId) {
+            return redirect()->route('login');
+        }
+        $isOwner = ((int)$targetUserId === (int)session('user_id'));
+
+        $user = User::withCount([
+            'posts',
+            'collections' => function ($query) use ($isOwner) {
+                if (!$isOwner) {
+                    $query->where('is_private', false);
+                }
+            }
+        ])->findOrFail($targetUserId);
+        
+        // Fetch user's own posts
+        $posts = $user->posts()->latest()->get();
+        
+        // Fetch user's collections
+        $collectionsQuery = $user->collections();
+        if (!$isOwner) {
+            $collectionsQuery->where('is_private', false);
+        }
+        $collections = $collectionsQuery
+            ->withCount('posts')
+            ->with(['posts' => function ($query) {
+                $query->latest()->limit(3);
+            }])
+            ->latest()
+            ->get();
+        
+        // Fetch user's liked posts
+        $likedPosts = Post::whereHas('likes', function ($query) use ($targetUserId) {
+            $query->where('user_id', $targetUserId);
+        })->with(['user'])->latest()->get();
+        
+        $likesCount = $likedPosts->count();
+
+        return view('profile.show', compact('user', 'posts', 'collections', 'likedPosts', 'likesCount', 'isOwner'));
+    }
+
     /**
      * Tampilkan halaman edit profil.
      */

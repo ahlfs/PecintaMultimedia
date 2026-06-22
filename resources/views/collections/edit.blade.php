@@ -23,7 +23,7 @@
 
         <!-- Form Card -->
         <div class="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden p-8 sm:p-10">
-            <form action="{{ route('collections.update', $collection->id) }}" method="POST" class="space-y-6">
+            <form action="{{ route('collections.update', $collection->slug) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
 

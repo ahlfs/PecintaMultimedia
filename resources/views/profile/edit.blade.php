@@ -211,23 +211,69 @@
                 </div>
 
                 <!-- Submit and Cancel Section -->
-                <div class="px-8 py-6 sm:px-10 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-end gap-3">
-                    <a 
-                        href="{{ route('feed') }}" 
-                        class="w-full sm:w-auto text-center px-6 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all"
-                    >
-                        Batalkan
-                    </a>
-                    <button 
-                        type="submit" 
-                        class="w-full sm:w-auto px-8 py-3 rounded-xl bg-brand-primary hover:bg-brand-primary/95 text-white font-bold text-sm shadow-md shadow-brand-primary/10 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
-                    >
-                        Simpan Perubahan
-                    </button>
+                <div class="px-8 py-6 sm:px-10 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <!-- Logout button on the left -->
+                    <div class="w-full sm:w-auto">
+                        <button 
+                            type="button" 
+                            onclick="confirmLogout(event)"
+                            class="w-full sm:w-auto px-6 py-3 rounded-xl border border-red-200 bg-white hover:bg-red-50 text-red-500 font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                            <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+                        </button>
+                    </div>
+
+                    <!-- Cancel and Save on the right -->
+                    <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-end">
+                        <a 
+                            href="{{ route('feed') }}" 
+                            class="w-full sm:w-auto text-center px-6 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all"
+                        >
+                            Batalkan
+                        </a>
+                        <button 
+                            type="submit" 
+                            class="w-full sm:w-auto px-8 py-3 rounded-xl bg-brand-primary hover:bg-brand-primary/95 text-white font-bold text-sm shadow-md shadow-brand-primary/10 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+                        >
+                            Simpan Perubahan
+                        </button>
+                    </div>
                 </div>
+            </form>
+            
+            <!-- Outside Logout Form to prevent nested forms -->
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
             </form>
         </div>
 
     </div>
 </div>
+
+@push('scripts')
+<script>
+    function confirmLogout(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin keluar?',
+            text: "Anda harus masuk kembali untuk mengakses feed dan koleksi Anda.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#293681', // brand-primary
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Keluar!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: 'rounded-3xl',
+                confirmButton: 'rounded-xl px-5 py-2.5 font-bold',
+                cancelButton: 'rounded-xl px-5 py-2.5 font-bold'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout-form').submit();
+            }
+        });
+    }
+</script>
+@endpush
 @endsection

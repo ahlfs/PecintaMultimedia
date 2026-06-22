@@ -31,22 +31,24 @@ Route::middleware(['manual.auth'])->group(function () {
     Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
     Route::get('/collections/create', [CollectionController::class, 'create'])->name('collections.create');
     Route::post('/collections', [CollectionController::class, 'store'])->name('collections.store');
-    Route::get('/collections/{id}', [CollectionController::class, 'show'])->name('collections.show');
-    Route::get('/collections/{id}/edit', [CollectionController::class, 'edit'])->name('collections.edit');
-    Route::put('/collections/{id}', [CollectionController::class, 'update'])->name('collections.update');
-    Route::delete('/collections/{id}', [CollectionController::class, 'destroy'])->name('collections.destroy');
+    Route::get('/collections/{collection}/edit', [CollectionController::class, 'edit'])->name('collections.edit');
+    Route::put('/collections/{collection}', [CollectionController::class, 'update'])->name('collections.update');
+    Route::delete('/collections/{collection}', [CollectionController::class, 'destroy'])->name('collections.destroy');
     
     // CRUD Post
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
-    Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
-    Route::post('/posts/{id}/save', [PostController::class, 'saveToCollection'])->name('posts.save-to-collection');
-    
-    // Placeholder feed yang menggunakan layout app untuk kemudahan testing
-    Route::get('/feed', function () {
-        return view('feed');
-    })->name('feed');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::post('/posts/{post}/save', [PostController::class, 'saveToCollection'])->name('posts.save-to-collection');
 });
+
+// Route Publik (Tanpa Login)
+Route::get('/feed', function () {
+    return view('feed');
+})->name('feed');
+
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/profile/{id?}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/collections/{collection}', [CollectionController::class, 'show'])->name('collections.show');

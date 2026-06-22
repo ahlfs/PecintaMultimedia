@@ -47,90 +47,53 @@
             <!-- Collections Card Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($collections as $collection)
-                    <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
-                        
-                        <!-- Card Body -->
-                        <div class="p-6 sm:p-8">
-                            <div class="flex items-center justify-between gap-3 mb-4">
-                                <!-- Folder icon and name -->
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
-                                        @if($collection->is_private)
-                                            <i class="fa-solid fa-folder-shield text-lg"></i>
-                                        @else
-                                            <i class="fa-solid fa-folder-open text-lg"></i>
-                                        @endif
+                    <div class="group bg-transparent flex flex-col justify-between overflow-hidden">
+                        <!-- Collection Preview Grid (Pinterest aspect ratio & layout) -->
+                        <a href="{{ route('collections.show', $collection->slug) }}" class="block w-full">
+                            <div class="grid grid-cols-3 grid-rows-2 gap-[2px] aspect-[4/3] w-full rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300">
+                                @if($collection->posts->isEmpty())
+                                    <div class="col-span-3 row-span-2 relative overflow-hidden bg-slate-100 flex items-center justify-center">
+                                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=600&auto=format&fit=crop&q=80" alt="Koleksi Kosong" class="w-full h-full object-cover brightness-95">
+                                        <div class="absolute inset-0 bg-slate-950/40 flex flex-col items-center justify-center p-4">
+                                            <i class="fa-solid fa-folder-open text-white text-3xl mb-2"></i>
+                                            <span class="text-white text-xs font-bold uppercase tracking-wider">Koleksi Kosong</span>
+                                        </div>
                                     </div>
-                                    <h3 class="font-extrabold text-lg text-slate-800 group-hover:text-brand-primary transition-colors leading-snug">
-                                        <a href="{{ route('collections.show', $collection->id) }}">{{ $collection->name }}</a>
-                                    </h3>
-                                </div>
-                                
-                                <!-- Privacy Badge -->
-                                <div>
-                                    @if($collection->is_private)
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100" title="Rahasia (Hanya Anda)">
-                                            <i class="fa-solid fa-lock text-[10px]"></i> Rahasia
-                                        </span>
-                                    @else
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100" title="Publik (Terbuka untuk Umum)">
-                                            <i class="fa-solid fa-globe text-[10px]"></i> Publik
-                                        </span>
-                                    @endif
-                                </div>
+                                @elseif($collection->posts->count() === 1)
+                                    <div class="col-span-3 row-span-2 relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[0]->image_path) }}" alt="{{ $collection->posts[0]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                @elseif($collection->posts->count() === 2)
+                                    <div class="col-span-2 row-span-2 relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[0]->image_path) }}" alt="{{ $collection->posts[0]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="row-span-2 relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[1]->image_path) }}" alt="{{ $collection->posts[1]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                @else
+                                    <!-- Left: 1 big image (takes 2/3 width) -->
+                                    <div class="col-span-2 row-span-2 relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[0]->image_path) }}" alt="{{ $collection->posts[0]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <!-- Right Top: 1 small image -->
+                                    <div class="relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[1]->image_path) }}" alt="{{ $collection->posts[1]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <!-- Right Bottom: 1 small image -->
+                                    <div class="relative overflow-hidden bg-slate-200">
+                                        <img src="{{ asset($collection->posts[2]->image_path) }}" alt="{{ $collection->posts[2]->title }}" class="w-full h-full object-cover">
+                                    </div>
+                                @endif
                             </div>
+                        </a>
 
-                            <!-- Description -->
-                            <p class="text-slate-500 text-sm leading-relaxed min-h-[40px] mb-4">
-                                {{ Str::limit($collection->description ?? 'Tidak ada deskripsi tambahan.', 80) }}
-                            </p>
-
-                            <!-- Counter Badge -->
-                            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200/50">
-                                <i class="fa-solid fa-images"></i>
-                                <span>{{ $collection->posts_count }} post disimpan</span>
-                            </div>
+                        <!-- Title & Post Count -->
+                        <div class="mt-3 px-1">
+                            <h3 class="font-extrabold text-slate-900 text-base sm:text-lg hover:text-brand-accent transition-colors leading-snug">
+                                <a href="{{ route('collections.show', $collection->slug) }}">{{ $collection->name }}</a>
+                            </h3>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">{{ $collection->posts_count }} post</span>
                         </div>
-
-                        <!-- Card Footer actions -->
-                        <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100/80 flex items-center justify-between gap-3">
-                            <a 
-                                href="{{ route('collections.show', $collection->id) }}" 
-                                class="inline-flex items-center gap-1 text-xs font-bold text-brand-primary hover:text-brand-accent transition-colors"
-                            >
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Koleksi
-                            </a>
-                            
-                            <div class="flex items-center gap-1">
-                                <!-- Edit -->
-                                <a 
-                                    href="{{ route('collections.edit', $collection->id) }}" 
-                                    class="p-2 rounded-lg text-slate-500 hover:text-brand-primary hover:bg-white border border-transparent hover:border-slate-200/60 transition-all"
-                                    title="Edit Koleksi"
-                                >
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-
-                                <!-- Delete (Form with custom interceptor class) -->
-                                <form 
-                                    action="{{ route('collections.destroy', $collection->id) }}" 
-                                    method="POST" 
-                                    class="inline form-delete-confirm"
-                                    data-confirm-message="Koleksi '{{ $collection->name }}' beserta seluruh tautan meme di dalamnya akan dihapus permanen."
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button 
-                                        type="submit" 
-                                        class="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-white border border-transparent hover:border-red-100 transition-all cursor-pointer"
-                                        title="Hapus Koleksi"
-                                    >
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
                     </div>
                 @endforeach
             </div>
