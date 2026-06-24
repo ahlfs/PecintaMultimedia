@@ -18,6 +18,10 @@ Route::middleware(['manual.guest'])->group(function () {
 
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Google Authentication Routes
+    Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
 
 // Route khusus Pengguna Masuk (Authenticated)
