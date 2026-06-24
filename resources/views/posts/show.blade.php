@@ -115,15 +115,12 @@
                         @endif
                     </div>
 
-                    <!-- Comments Section Placeholder (Afriza's Task area) -->
+                    <!-- Comments Section (Livewire - Afriza's Task) -->
                     <div class="rounded-2xl border border-slate-200/60 p-4 bg-slate-50/50">
-                        <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Komentar</h4>
-                        
-                        <!-- Comments section will be mounted here dynamically via Livewire -->
-                        <div class="text-center py-6 text-slate-400">
-                            <i class="fa-regular fa-comments text-2xl mb-2 block"></i>
-                            <p class="text-xs">Fitur komentar real-time sedang dipersiapkan.</p>
-                        </div>
+                        <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <i class="fa-regular fa-comments text-brand-accent"></i> Komentar
+                        </h4>
+                        @livewire('comments-section', ['post' => $post])
                     </div>
 
                 </div>
@@ -216,22 +213,40 @@
 @endif
 
 @push('scripts')
+<script src="{{ asset('assets/js/post-show.js') }}"></script>
 <script>
-    function openSaveModal() {
-        const modal = document.getElementById('save-modal');
-        if (modal) {
-            modal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-    }
+    // Livewire event listeners for SweetAlert notifications
+    document.addEventListener('livewire:init', function () {
+        Livewire.on('notify-success', (data) => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: data.message,
+                timer: 2500,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end',
+                background: '#fff',
+                iconColor: '#4274D9',
+                customClass: {
+                    popup: 'rounded-xl shadow-lg border border-slate-100 font-sans'
+                }
+            });
+        });
 
-    function closeSaveModal() {
-        const modal = document.getElementById('save-modal');
-        if (modal) {
-            modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-    }
+        Livewire.on('notify-error', (data) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message,
+                confirmButtonColor: '#293681',
+                customClass: {
+                    popup: 'rounded-2xl shadow-xl font-sans',
+                    confirmButton: 'px-6 py-2.5 rounded-xl text-sm font-bold'
+                }
+            });
+        });
+    });
 </script>
 @endpush
 @endsection
