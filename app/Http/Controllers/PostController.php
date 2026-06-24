@@ -155,7 +155,7 @@ class PostController extends Controller
         $validCollectionIds = array_intersect($request->input('collection_ids', []), $userCollectionIds);
         $post->collections()->sync($validCollectionIds);
 
-        return redirect()->route('feed')->with('success', 'Postingan berhasil diperbarui!');
+        return redirect()->route('posts.show', $post)->with('success', 'Postingan berhasil diperbarui!');
     }
 
     /**

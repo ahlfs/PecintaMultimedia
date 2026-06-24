@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -103,5 +105,57 @@ class AuthController extends Controller
         session()->regenerateToken();
 
         return redirect('/')->with('success', 'Anda berhasil keluar.');
+    }
+
+    /**
+     * Mengarahkan pengguna ke halaman otentikasi Google.
+     */
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Memproses callback dari otentikasi Google.
+     */
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'Gagal masuk menggunakan Google. Silakan coba lagi.');
+        }
+
+        // Cari user berdasarkan email
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if (!$user) {
+            // Jika belum terdaftar, buat akun baru
+            // Buat username unik berdasarkan email prefix
+            $emailPrefix = explode('@', $googleUser->getEmail())[0];
+            $username = Str::slug($emailPrefix, '_');
+
+            // Pastikan username unik di database
+            $originalUsername = $username;
+            $count = 1;
+            while (User::where('username', $username)->exists()) {
+                $username = $originalUsername . $count;
+                $count++;
+            }
+
+            $user = User::create([
+                'name' => $googleUser->getName(),
+                'username' => $username,
+                'email' => $googleUser->getEmail(),
+                'password' => Hash::driver('argon2id')->make(Str::random(24)),
+                'profile_photo' => $googleUser->getAvatar(),
+            ]);
+        }
+
+        // Set session user_id secara manual sesuai auth flow aplikasi saat ini
+        session(['user_id' => $user->id]);
+        session()->regenerate();
+
+        return redirect()->route('feed')->with('success', 'Selamat datang, ' . $user->name . '!');
     }
 }
