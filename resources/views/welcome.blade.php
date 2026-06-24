@@ -28,19 +28,19 @@
                 color: #e69b00 !important;
             }
             
-            /* Navbar Glow - Animated Gradient Border */
+            /* Navbar Glow - Animated Gradient Border (SOFT VERSION) */
             .navbar-glow::before {
                 content: '';
                 position: absolute;
-                top: -2px;
-                left: -2px;
-                right: -2px;
-                bottom: -2px;
+                top: -1px;
+                left: -1px;
+                right: -1px;
+                bottom: -1px;
                 background: linear-gradient(45deg, #e69b00, #e6b400, #e6cc00, #e5de00, #e6b400, #e69b00);
                 border-radius: inherit;
                 z-index: -1;
-                filter: blur(15px);
-                opacity: 0.5;
+                filter: blur(6px);
+                opacity: 0.2;
                 animation: navbarGlow 8s linear infinite;
                 background-size: 400% 400%;
             }
@@ -143,13 +143,13 @@
     </head>
     <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
         
-        <!-- Glassmorphic Navbar with Yellow Glow -->
-        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow relative bg-white/75 backdrop-blur-[20px] border border-[#e6b400]/25 shadow-[0_0_30px_rgba(230,155,0,0.15),0_0_60px_rgba(230,180,0,0.08),inset_0_1px_0_rgba(255,255,255,0.8)] rounded-2xl transition-all duration-300">
+        <!-- Glassmorphic Navbar with SOFT Yellow Glow -->
+        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow relative bg-white/85 backdrop-blur-[16px] border border-[#e6b400]/15 shadow-[0_0_20px_rgba(230,155,0,0.08),0_0_40px_rgba(230,180,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] rounded-2xl transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 md:h-18">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] shadow-[0_4px_15px_rgba(230,155,0,0.4),0_0_20px_rgba(230,180,0,0.2)] hover:shadow-[0_6px_25px_rgba(230,155,0,0.6),0_0_35px_rgba(230,180,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] shadow-[0_4px_12px_rgba(230,155,0,0.3)] hover:shadow-[0_4px_15px_rgba(230,155,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center">
                             <i class="fa-solid fa-images text-white text-lg"></i>
                         </div>
                         <span class="font-['Chewy'] text-2xl md:text-3xl tracking-wide">
@@ -159,16 +159,16 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden md:flex items-center gap-8">
-                        <a href="{{ route('feed') }}" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] hover:text-shadow-[0_0_10px_rgba(230,155,0,0.3)] transition-all duration-300">Eksplorasi</a>
-                        <a href="#features" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] hover:text-shadow-[0_0_10px_rgba(230,155,0,0.3)] transition-all duration-300">Fitur</a>
-                        <a href="#how-it-works" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] hover:text-shadow-[0_0_10px_rgba(230,155,0,0.3)] transition-all duration-300">Cara Kerja</a>
+                        <a href="{{ route('feed') }}" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Eksplorasi</a>
+                        <a href="#features" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Fitur</a>
+                        <a href="#how-it-works" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Cara Kerja</a>
                     </div>
 
                     <!-- CTA Buttons -->
                     <div class="flex items-center gap-4">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ route('feed') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_30px_rgba(230,155,0,0.5),0_0_60px_rgba(230,180,0,0.3)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/25 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                <a href="{{ route('feed') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
                                     Masuk ke Feed
                                 </a>
                             @else
@@ -176,7 +176,7 @@
                                     Masuk
                                 </a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_30px_rgba(230,155,0,0.5),0_0_60px_rgba(230,180,0,0.3)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/25 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
                                         Mulai Eksplorasi
                                     </a>
                                 @endif
@@ -213,7 +213,7 @@
                         type="text" 
                         name="search" 
                         placeholder="Cari meme, foto estetik, referensi desain..." 
-                        class="w-full pl-12 pr-28 py-4 rounded-full border-2 border-slate-200 bg-white/95 backdrop-blur-md focus:outline-none focus:ring-4 focus:ring-[#e6b400]/20 focus:border-[#e6b400] focus:shadow-[0_0_0_4px_rgba(230,180,0,0.15),0_0_30px_rgba(230,155,0,0.2),0_20px_40px_rgba(0,0,0,0.1)] shadow-xl shadow-slate-200/40 text-slate-800 placeholder-slate-400 transition-all text-sm sm:text-base hover:border-[#e6cc00]/50"
+                        class="w-full pl-12 pr-28 py-4 rounded-full border-2 border-slate-200 bg-white/95 backdrop-blur-md focus:outline-none focus:ring-4 focus:ring-[#e6b400]/20 focus:border-[#e6b400] shadow-xl shadow-slate-200/40 text-slate-800 placeholder-slate-400 transition-all text-sm sm:text-base hover:border-[#e6cc00]/50"
                     >
                     <button 
                         type="submit" 
@@ -445,10 +445,10 @@
                     <div class="md:col-span-3">
                         <h4 class="font-bold text-sm tracking-wider uppercase mb-4 opacity-90 text-white">Akses Cepat</h4>
                         <ul class="space-y-2.5 text-sm">
-                            <li><a href="{{ route('feed') }}" class="text-white hover:text-[#fff4cc] hover:text-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all">Eksplorasi Feed</a></li>
-                            <li><a href="#features" class="text-white hover:text-[#fff4cc] hover:text-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all">Fitur Utama</a></li>
-                            <li><a href="#how-it-works" class="text-white hover:text-[#fff4cc] hover:text-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all">Cara Kerja</a></li>
-                            <li><a href="{{ route('login') }}" class="text-white hover:text-[#fff4cc] hover:text-shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all">Halaman Masuk</a></li>
+                            <li><a href="{{ route('feed') }}" class="text-white hover:text-[#fff4cc] transition-all">Eksplorasi Feed</a></li>
+                            <li><a href="#features" class="text-white hover:text-[#fff4cc] transition-all">Fitur Utama</a></li>
+                            <li><a href="#how-it-works" class="text-white hover:text-[#fff4cc] transition-all">Cara Kerja</a></li>
+                            <li><a href="{{ route('login') }}" class="text-white hover:text-[#fff4cc] transition-all">Halaman Masuk</a></li>
                         </ul>
                     </div>
 

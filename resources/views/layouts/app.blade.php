@@ -57,31 +57,31 @@
            YELLOW GLOWING THEME - GLOBAL STYLES
            ============================================ */
         
-        /* Glowing Navbar Border Effect */
+        /* Glowing Navbar Border Effect - SOFT VERSION */
         .navbar-glow {
             position: relative;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(230, 180, 0, 0.25);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(230, 180, 0, 0.15);
             box-shadow: 
-                0 0 30px rgba(230, 155, 0, 0.15),
-                0 0 60px rgba(230, 180, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 0 20px rgba(230, 155, 0, 0.08),
+                0 0 40px rgba(230, 180, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         
         .navbar-glow::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
             background: linear-gradient(45deg, #e69b00, #e6b400, #e6cc00, #e5de00, #e6b400, #e69b00);
             border-radius: inherit;
             z-index: -1;
-            filter: blur(15px);
-            opacity: 0.5;
+            filter: blur(8px);
+            opacity: 0.25;
             animation: navbarGlow 8s linear infinite;
             background-size: 400% 400%;
         }
@@ -252,7 +252,7 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col" data-session-success="{{ session('success') }}" data-session-error="{{ session('error') }}">
 
-    <!-- Glassmorphic Navbar with Yellow Glow -->
+    <!-- Glassmorphic Navbar with Soft Yellow Glow -->
     <nav class="sticky top-4 mx-auto max-w-[1600px] w-[95%] sm:w-[92%] z-50 navbar-glow rounded-2xl transition-all duration-300">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:h-18 gap-4 w-full">
