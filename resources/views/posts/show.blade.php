@@ -104,15 +104,33 @@
                             @livewire('like-button', ['post' => $post])
                         </div>
 
-                        <!-- Save to Collection Button -->
-                        @if(session()->has('user_id'))
-                            <button 
-                                onclick="openSaveModal()"
-                                class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-brand-accent hover:bg-brand-accent/95 font-bold text-sm shadow-md shadow-brand-accent/15 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+                        <!-- Action Buttons Row -->
+                        <div class="flex items-center gap-2">
+
+                            <!-- Download Button -->
+                            <button
+                                id="btn-download"
+                                onclick="downloadImage('{{ asset($post->image_path) }}', '{{ Str::slug($post->title) }}')"
+                                class="group relative inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-slate-600 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 font-bold text-sm shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer overflow-hidden"
+                                title="Unduh Gambar"
                             >
-                                <i class="fa-solid fa-folder-plus mr-2"></i> Simpan ke Koleksi
+                                <!-- Shine effect -->
+                                <div class="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-500 pointer-events-none"></div>
+                                <i id="download-icon" class="fa-solid fa-download text-sm mr-1.5 group-hover:text-brand-primary transition-colors duration-300"></i>
+                                <span class="relative">Unduh</span>
                             </button>
-                        @endif
+
+                            <!-- Save to Collection Button -->
+                            @if(session()->has('user_id'))
+                                <button 
+                                    onclick="openSaveModal()"
+                                    class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-brand-accent hover:bg-brand-accent/95 font-bold text-sm shadow-md shadow-brand-accent/15 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-folder-plus mr-2"></i> Simpan ke Koleksi
+                                </button>
+                            @endif
+
+                        </div>
                     </div>
 
                     <!-- Comments Section (Livewire - Afriza's Task) -->
@@ -214,6 +232,53 @@
 
 @push('scripts')
 <script src="{{ asset('assets/js/post-show.js') }}"></script>
+<script>
+    /**
+     * Download post image as a file using fetch + Blob trick.
+     * This avoids opening the image in a new browser tab.
+     */
+    async function downloadImage(imageUrl, filename) {
+        const btn = document.getElementById('btn-download');
+        const icon = document.getElementById('download-icon');
+
+        // Show loading state
+        btn.disabled = true;
+        icon.className = 'fa-solid fa-spinner fa-spin text-sm mr-1.5 text-brand-primary';
+
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const blob = await response.blob();
+            const extension = blob.type.split('/')[1] || 'jpg';
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename + '.' + extension;
+            document.body.appendChild(a);
+            a.click();
+
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            // Show success state briefly
+            icon.className = 'fa-solid fa-circle-check text-sm mr-1.5 text-green-500';
+            setTimeout(() => {
+                icon.className = 'fa-solid fa-download text-sm mr-1.5 group-hover:text-brand-primary transition-colors duration-300';
+                btn.disabled = false;
+            }, 2000);
+        } catch (error) {
+            console.error('Download failed:', error);
+            icon.className = 'fa-solid fa-circle-xmark text-sm mr-1.5 text-red-500';
+            setTimeout(() => {
+                icon.className = 'fa-solid fa-download text-sm mr-1.5 group-hover:text-brand-primary transition-colors duration-300';
+                btn.disabled = false;
+            }, 2000);
+        }
+    }
+</script>
 <script>
     // Livewire event listeners for SweetAlert notifications
     document.addEventListener('livewire:init', function () {
