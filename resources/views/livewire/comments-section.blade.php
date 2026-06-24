@@ -56,7 +56,7 @@
                 <div class="comment-bubble-wrap">
                     <div class="comment-bubble">
                         <div class="comment-bubble-header">
-                            <a href="{{ route('profile.show', $comment->user->id) }}" class="comment-author">
+                            <a href="{{ route('profile.show', $comment->user->username) }}" class="comment-author">
                                 {{ $comment->user->name }}
                             </a>
                             <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
