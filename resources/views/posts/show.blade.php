@@ -81,7 +81,7 @@
                     </p>
 
                     <!-- Author Details -->
-                    <a href="{{ route('profile.show', $post->user->id) }}" class="flex items-center gap-3 mb-6 group inline-flex">
+                    <a href="{{ route('profile.show', $post->user->username) }}" class="flex items-center gap-3 mb-6 group inline-flex">
                         <img 
                             src="{{ $post->user->profile_photo ? asset($post->user->profile_photo) : 'https://ui-avatars.com/api/?name='.urlencode($post->user->name).'&background=293681&color=fff&bold=true' }}" 
                             alt="{{ $post->user->name }}" 

@@ -192,7 +192,7 @@ class PostTest extends TestCase
                              'collection_ids' => [$collection->id],
                          ]);
 
-        $response->assertRedirect('/feed');
+        $response->assertRedirect('/posts/new-title');
         $this->assertDatabaseHas('posts', [
             'id' => $post->id,
             'title' => 'New Title',
@@ -224,7 +224,7 @@ class PostTest extends TestCase
                              'image' => $newImage,
                          ]);
 
-        $response->assertRedirect('/feed');
+        $response->assertRedirect('/posts/new-title');
         $post = $post->fresh();
 
         $this->assertEquals('New Title', $post->title);

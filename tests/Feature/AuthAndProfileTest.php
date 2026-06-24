@@ -230,7 +230,7 @@ class AuthAndProfileTest extends TestCase
         $feedResponse->assertStatus(200);
 
         // Guests can access specific profile page
-        $profileResponse = $this->get('/profile/' . $user->id);
+        $profileResponse = $this->get('/profile/' . $user->username);
         $profileResponse->assertStatus(200);
         $profileResponse->assertSee('publicuser');
 

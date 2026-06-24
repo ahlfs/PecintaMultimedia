@@ -13,22 +13,29 @@ class ProfileController extends Controller
     /**
      * Tampilkan halaman profil pengguna (Instagram-style).
      */
-    public function show($id = null)
+    public function show($username = null)
     {
-        $targetUserId = $id ?? session('user_id');
-        if (!$targetUserId) {
-            return redirect()->route('login');
+        if (!$username) {
+            $targetUserId = session('user_id');
+            if (!$targetUserId) {
+                return redirect()->route('login');
+            }
+            $user = User::findOrFail($targetUserId);
+        } else {
+            $user = User::where('username', $username)->firstOrFail();
         }
+
+        $targetUserId = $user->id;
         $isOwner = ((int)$targetUserId === (int)session('user_id'));
 
-        $user = User::withCount([
+        $user->loadCount([
             'posts',
             'collections' => function ($query) use ($isOwner) {
                 if (!$isOwner) {
                     $query->where('is_private', false);
                 }
             }
-        ])->findOrFail($targetUserId);
+        ]);
         
         // Fetch user's own posts
         $posts = $user->posts()->latest()->get();

@@ -54,5 +54,5 @@ Route::get('/feed', function () {
 })->name('feed');
 
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
-Route::get('/profile/{id?}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{username?}', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/collections/{collection}', [CollectionController::class, 'show'])->name('collections.show');
