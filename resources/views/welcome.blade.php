@@ -19,6 +19,9 @@
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
+        <!-- Alpine.js for mobile menu interactivity -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        
         <style>
             /* ============================================
                MINIMAL CUSTOM CSS - ONLY FOR KEYFRAMES & PSEUDO-ELEMENTS
@@ -147,7 +150,7 @@
     <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
         
         <!-- Glassmorphic Navbar with SOFT Yellow Glow -->
-        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow bg-white/85 backdrop-blur-[16px] border border-[#e6b400]/15 shadow-[0_0_20px_rgba(230,155,0,0.08),0_0_40px_rgba(230,180,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] rounded-2xl transition-all duration-300">
+        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow bg-white/85 backdrop-blur-[16px] border border-[#e6b400]/15 shadow-[0_0_20px_rgba(230,155,0,0.08),0_0_40px_rgba(230,180,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] rounded-2xl transition-all duration-300" x-data="{ mobileMenuOpen: false }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 md:h-18">
                     <!-- Logo -->
@@ -160,26 +163,86 @@
                         </span>
                     </div>
 
-                    <!-- Navigation Links -->
+                    <!-- Navigation Links (Desktop) -->
                     <div class="hidden md:flex items-center gap-8">
                         <a href="{{ route('feed') }}" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Eksplorasi</a>
                         <a href="#features" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Fitur</a>
                         <a href="#how-it-works" class="relative font-medium text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300">Cara Kerja</a>
                     </div>
 
-                    <!-- CTA Buttons -->
-                    <div class="flex items-center gap-4">
+                    <!-- CTA Buttons (Desktop) + Hamburger (Mobile) -->
+                    <div class="flex items-center gap-3">
+                        <!-- Desktop CTA -->
+                        <div class="hidden md:flex items-center gap-3">
+                            @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ route('feed') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                        Masuk ke Feed
+                                    </a>
+                                @else
+                                    <a href="{{ route('login') }}" class="relative font-semibold text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300 px-4 py-2 text-sm">
+                                        Masuk
+                                    </a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                            Mulai Eksplorasi
+                                        </a>
+                                    @endif
+                                @endauth
+                            @endif
+                        </div>
+
+                        <!-- Hamburger Button (Mobile) -->
+                        <button
+                            @click="mobileMenuOpen = !mobileMenuOpen"
+                            type="button"
+                            class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-slate-600 hover:text-[#e69b00] hover:bg-[#e6b400]/10 transition-all duration-200 focus:outline-none"
+                            aria-label="Toggle menu"
+                        >
+                            <i class="fa-solid text-base" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div
+                    x-show="mobileMenuOpen"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 -translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 -translate-y-2"
+                    class="md:hidden border-t border-[#e6b400]/15 py-4 flex flex-col gap-1"
+                    style="display: none;"
+                >
+                    <a href="{{ route('feed') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#e69b00] hover:bg-[#e6b400]/8 font-medium text-sm transition-all">
+                        <i class="fa-solid fa-compass w-4 text-center"></i>
+                        Eksplorasi
+                    </a>
+                    <a href="#features" @click="mobileMenuOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#e69b00] hover:bg-[#e6b400]/8 font-medium text-sm transition-all">
+                        <i class="fa-solid fa-star w-4 text-center"></i>
+                        Fitur
+                    </a>
+                    <a href="#how-it-works" @click="mobileMenuOpen = false" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#e69b00] hover:bg-[#e6b400]/8 font-medium text-sm transition-all">
+                        <i class="fa-solid fa-circle-info w-4 text-center"></i>
+                        Cara Kerja
+                    </a>
+                    <div class="pt-3 mt-2 border-t border-[#e6b400]/15 flex flex-col gap-2 px-2">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ route('feed') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                <a href="{{ route('feed') }}" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] font-semibold text-sm shadow-md transition-all">
+                                    <i class="fa-solid fa-door-open"></i>
                                     Masuk ke Feed
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="relative font-semibold text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300 px-4 py-2 text-sm">
+                                <a href="{{ route('login') }}" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-[#e69b00] border border-[#e6b400]/40 font-semibold text-sm hover:bg-[#e6b400]/8 transition-all">
+                                    <i class="fa-solid fa-right-to-bracket"></i>
                                     Masuk
                                 </a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                    <a href="{{ route('register') }}" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] font-semibold text-sm shadow-md transition-all">
+                                        <i class="fa-solid fa-user-plus"></i>
                                         Mulai Eksplorasi
                                     </a>
                                 @endif
@@ -208,19 +271,20 @@
                 </p>
                 
                 <!-- Floating Search Pill -->
-                <form action="{{ route('feed') }}" method="GET" class="w-full max-w-2xl mx-auto relative group">
-                    <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                        <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-[#e69b00] transition-colors"></i>
-                    </div>
+                <form action="{{ route('feed') }}" method="GET" style="position:relative;" class="w-full max-w-2xl mx-auto group">
+                    <span style="position:absolute;top:0;bottom:0;left:0;padding-left:1.25rem;display:flex;align-items:center;pointer-events:none;z-index:10;">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-[#e69b00] transition-colors duration-200"></i>
+                    </span>
                     <input 
                         type="text" 
                         name="search" 
                         placeholder="Cari meme, foto estetik, referensi desain..." 
-                        class="w-full pl-12 pr-28 py-4 rounded-full border-2 border-slate-200 bg-white/95 backdrop-blur-md focus:outline-none focus:ring-4 focus:ring-[#e6b400]/20 focus:border-[#e6b400] shadow-xl shadow-slate-200/40 text-slate-800 placeholder-slate-400 transition-all text-sm sm:text-base hover:border-[#e6cc00]/50"
+                        class="w-full pl-14 pr-28 py-4 rounded-full border-2 border-slate-200 bg-white/95 backdrop-blur-md focus:outline-none focus:ring-4 focus:ring-[#e6b400]/20 focus:border-[#e6b400] shadow-xl shadow-slate-200/40 text-slate-800 placeholder-slate-400 transition-all text-sm sm:text-base hover:border-[#e6cc00]/50"
                     >
                     <button 
                         type="submit" 
-                        class="absolute right-2 top-2 bottom-2 px-6 bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] text-white rounded-full font-bold text-sm shadow-lg shadow-[#e69b00]/25 transition-all duration-300 relative overflow-hidden btn-gradient-yellow"
+                        style="position:absolute;top:0.5rem;bottom:0.5rem;right:0.5rem;padding-left:1.5rem;padding-right:1.5rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;white-space:nowrap;"
+                        class="bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] text-white font-bold text-sm shadow-lg shadow-[#e69b00]/25 transition-all duration-300 btn-gradient-yellow"
                     >
                         Cari
                     </button>
