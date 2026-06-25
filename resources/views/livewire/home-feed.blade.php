@@ -10,9 +10,9 @@
             <p class="text-xs text-slate-500 max-w-xs mx-auto px-4">Coba cari dengan kata kunci lain atau unggah meme baru Anda sendiri.</p>
         </div>
     @else
-        <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4">
+        <div class="columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4">
             @foreach($posts as $post)
-                <div class="break-inside-avoid overflow-hidden rounded-2xl group relative mb-4 shadow-sm hover:shadow-lg transition-all duration-300">
+                <div class="break-inside-avoid overflow-hidden rounded-xl sm:rounded-2xl group relative mb-3 sm:mb-4 shadow-sm hover:shadow-lg transition-all duration-300">
                     <!-- Post Image & Overlay -->
                     <a href="{{ route('posts.show', $post->slug) }}" class="block relative overflow-hidden bg-slate-100">
                         <img 

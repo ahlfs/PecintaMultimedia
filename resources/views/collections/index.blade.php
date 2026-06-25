@@ -114,12 +114,12 @@
             </div>
         @else
             {{-- Collections Card Grid --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 @foreach($collections as $collection)
                     <div class="group bg-transparent flex flex-col justify-between overflow-hidden">
                         {{-- Collection Preview Grid (Pinterest aspect ratio & layout) --}}
                         <a href="{{ route('collections.show', $collection->slug) }}" class="block w-full">
-                            <div class="grid grid-cols-3 grid-rows-2 gap-[2px] aspect-[4/3] w-full rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div class="grid grid-cols-3 grid-rows-2 gap-[2px] aspect-[4/3] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                                 @if($collection->posts->isEmpty())
                                     <div class="col-span-3 row-span-2 relative overflow-hidden bg-slate-100 flex items-center justify-center">
                                         <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=600&auto=format&fit=crop&q=80" alt="Koleksi Kosong" class="w-full h-full object-cover brightness-95">
@@ -158,10 +158,10 @@
 
                         {{-- Title & Post Count --}}
                         <div class="mt-3 px-1">
-                            <h3 class="font-extrabold text-slate-900 text-base sm:text-lg hover:text-[#e6b400] transition-colors leading-snug">
+                            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base md:text-lg hover:text-[#e6b400] transition-colors leading-snug">
                                 <a href="{{ route('collections.show', $collection->slug) }}">{{ $collection->name }}</a>
                             </h3>
-                            <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">{{ $collection->posts_count }} post</span>
+                            <span class="text-[10px] sm:text-xs md:text-sm font-semibold text-slate-500 mt-1 block">{{ $collection->posts_count }} post</span>
                         </div>
                     </div>
                 @endforeach

@@ -1,46 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Chewy&family=Comic+Relief:wght@400;700&family=Outfit:wght@100..900&display=swap');
 @import 'tailwindcss';
 
+/* --- Tailwind v4: sumber kelas yang perlu di-scan --- */
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+@source '../../app/**/*.php';
 
+/* --- Tema Warna Brand (Yellow Theme) --- */
 @theme {
-    --font-sans: 'Outfit', 'Comic Relief', 'Averia Libre', 'Chewy', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Fonts */
+    --font-sans: 'Outfit', 'Comic Relief', 'Averia Libre', 'Chewy', system-ui, sans-serif;
     --font-chewy: 'Chewy', cursive;
     --font-averia: 'Averia Libre', serif;
     --font-comic: 'Comic Relief', sans-serif;
-    --color-brand-primary: #293681;
-    --color-brand-accent: #4274D9;
-    --color-brand-accent-light: #95CCDD;
-    --color-brand-bg-light: #D0E7E6;
+
+    /* Brand Colors - Yellow Theme */
+    --color-brand-primary:      #e69b00;
+    --color-brand-accent:       #e6b400;
+    --color-brand-accent-light: #e6cc00;
+    --color-brand-bg-light:     #fff4cc;
+
+    /* Extended spacing/radius used in views */
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
 }
 
+/* --- Keyframes --- */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50%       { transform: translateY(-10px); }
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes navbarGlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Animation Utilities --- */
 .animate-float {
     animation: float 6s ease-in-out infinite;
 }
 
 .animate-float-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: 3s;
+    animation: float 6s ease-in-out 3s infinite;
 }
 
 .animate-fade-in-up {
@@ -57,6 +67,7 @@
     opacity: 0;
 }
 
+/* --- Glassmorphism --- */
 .glassmorphism {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
@@ -64,8 +75,162 @@
 }
 
 .glassmorphism-dark {
-    background: rgba(41, 54, 129, 0.15);
+    background: rgba(230, 155, 0, 0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* --- Navbar Glow (yellow) --- */
+.navbar-glow {
+    position: sticky;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(230, 180, 0, 0.15);
+    box-shadow:
+        0 0 20px rgba(230, 155, 0, 0.08),
+        0 0 40px rgba(230, 180, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.navbar-glow::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    background: linear-gradient(45deg, #e69b00, #e6b400, #e6cc00, #e5de00, #e6b400, #e69b00);
+    border-radius: inherit;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0.25;
+    animation: navbarGlow 8s linear infinite;
+    background-size: 400% 400%;
+}
+
+/* --- Button Glow (Yellow) --- */
+.btn-glow-yellow {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glow-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.btn-glow-yellow:hover::before { left: 100%; }
+
+.btn-glow-yellow:hover {
+    box-shadow: 0 0 25px rgba(230,155,0,0.5), 0 0 50px rgba(230,180,0,0.3);
+    transform: translateY(-2px);
+}
+
+.btn-glow-yellow:active { transform: translateY(0); }
+
+/* --- Gradient Button --- */
+.btn-gradient-yellow {
+    background: linear-gradient(135deg, #e69b00 0%, #e6b400 50%, #e6cc00 100%);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gradient-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.btn-gradient-yellow:hover::before { left: 100%; }
+
+.btn-gradient-yellow:hover {
+    background: linear-gradient(135deg, #e6b400 0%, #e6cc00 50%, #e5de00 100%);
+    box-shadow: 0 0 30px rgba(230,155,0,0.5), 0 0 60px rgba(230,180,0,0.3);
+    transform: translateY(-2px);
+}
+
+/* --- Logo Icon --- */
+.logo-icon-glow {
+    background: linear-gradient(135deg, #e69b00 0%, #e6b400 50%, #e6cc00 100%);
+    box-shadow: 0 4px 15px rgba(230,155,0,0.4), 0 0 20px rgba(230,180,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.logo-icon-glow:hover {
+    box-shadow: 0 6px 25px rgba(230,155,0,0.6), 0 0 35px rgba(230,180,0,0.4);
+    transform: scale(1.05);
+}
+
+/* --- Gradient Text --- */
+.text-gradient-yellow {
+    background: linear-gradient(135deg, #e69b00 0%, #e6b400 50%, #e6cc00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* --- Nav Icon Glow --- */
+.nav-icon-glow:hover {
+    color: #e69b00 !important;
+    text-shadow: 0 0 10px rgba(230,155,0,0.3);
+    background: rgba(230,180,0,0.08) !important;
+}
+
+.nav-icon-glow.active {
+    color: #e69b00 !important;
+    background: rgba(230,180,0,0.12) !important;
+    text-shadow: 0 0 10px rgba(230,155,0,0.4);
+}
+
+/* --- Footer --- */
+.footer-yellow {
+    background: linear-gradient(135deg, #e69b00 0%, #e6b400 50%, #e6cc00 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+}
+
+.footer-yellow,
+.footer-yellow *,
+.footer-yellow a,
+.footer-yellow p,
+.footer-yellow span,
+.footer-yellow div { color: #ffffff !important; }
+
+.footer-yellow a:hover {
+    color: #fff4cc !important;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* --- Misc Utilities --- */
+::selection {
+    background: rgba(230, 180, 0, 0.25) !important;
+    color: #e69b00 !important;
+}
+
+.avatar-glow:hover {
+    box-shadow: 0 0 20px rgba(230,155,0,0.4);
+    transform: scale(1.05);
+    border-color: #e6b400 !important;
+}
+
+.search-glow:focus {
+    border-color: #e6b400 !important;
+    box-shadow: 0 0 0 4px rgba(230,180,0,0.15), 0 0 20px rgba(230,155,0,0.15);
+}
+

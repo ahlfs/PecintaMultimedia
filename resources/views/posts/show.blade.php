@@ -40,7 +40,7 @@
                             <i class="fa-solid fa-clock mr-1"></i> {{ $post->created_at->diffForHumans() }}
                         </span>
 
-                        @if($post->user_id === session('user_id'))
+                        @if($post->user_id == session('user_id'))
                             <div class="flex items-center gap-2">
                                 <a 
                                     href="{{ route('posts.edit', $post->slug) }}" 

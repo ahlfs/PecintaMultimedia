@@ -52,7 +52,7 @@ class CommentsSection extends Component
 
         $comment = Comment::find($commentId);
 
-        if ($comment && ($comment->user_id === $userId || $this->post->user_id === $userId)) {
+        if ($comment && ($comment->user_id == $userId || $this->post->user_id == $userId)) {
             $comment->delete();
             $this->dispatch('notify-success', message: 'Komentar dihapus.');
         }

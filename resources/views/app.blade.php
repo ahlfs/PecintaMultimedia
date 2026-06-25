@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     <title>@yield('title', 'GudangMeme - Simpan & Berbagi Inspirasi Visual')</title>
 
     <!-- Google Fonts (Outfit, Averia Libre, Chewy, Comic Relief) -->
@@ -65,7 +68,7 @@
 
         /* Navbar Glow - Animated Gradient Border */
         .navbar-glow {
-            position: relative;
+            position: sticky;
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -162,8 +165,8 @@
                 <!-- Logo & Brand -->
                 <div class="flex-shrink-0 flex items-center gap-3">
                     <a href="{{ route('feed') }}" class="flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] shadow-[0_4px_15px_rgba(230,155,0,0.4),0_0_20px_rgba(230,180,0,0.2)] hover:shadow-[0_6px_25px_rgba(230,155,0,0.6),0_0_35px_rgba(230,180,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center">
-                            <i class="fa-solid fa-images text-white text-lg"></i>
+                        <div class="w-10 h-10 rounded-xl bg-white shadow-[0_4px_15px_rgba(230,155,0,0.4),0_0_20px_rgba(230,180,0,0.2)] hover:shadow-[0_6px_25px_rgba(230,155,0,0.6),0_0_35px_rgba(230,180,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden p-1 border border-[#e6b400]/20">
+                            <img src="{{ asset('assets/images/icons/gudangmeme-icon.png') }}" alt="Logo" class="w-full h-full object-contain">
                         </div>
                         <span class="font-chewy text-2xl md:text-3xl tracking-wide">
                             <span class="bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] bg-clip-text text-transparent">Gudang</span><span class="bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] bg-clip-text text-transparent">Meme</span>

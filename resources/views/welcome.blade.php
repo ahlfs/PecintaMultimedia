@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
         <title>GudangMeme - Berbagi & Simpan Inspirasi Visual</title>
 
         <!-- Fonts -->
@@ -144,13 +147,13 @@
     <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
         
         <!-- Glassmorphic Navbar with SOFT Yellow Glow -->
-        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow relative bg-white/85 backdrop-blur-[16px] border border-[#e6b400]/15 shadow-[0_0_20px_rgba(230,155,0,0.08),0_0_40px_rgba(230,180,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] rounded-2xl transition-all duration-300">
+        <nav class="sticky top-4 mx-auto max-w-7xl w-[95%] sm:w-[92%] z-50 navbar-glow bg-white/85 backdrop-blur-[16px] border border-[#e6b400]/15 shadow-[0_0_20px_rgba(230,155,0,0.08),0_0_40px_rgba(230,180,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] rounded-2xl transition-all duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16 md:h-18">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] shadow-[0_4px_12px_rgba(230,155,0,0.3)] hover:shadow-[0_4px_15px_rgba(230,155,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center">
-                            <i class="fa-solid fa-images text-white text-lg"></i>
+                        <div class="w-10 h-10 rounded-xl bg-white logo-icon-glow shadow-[0_4px_12px_rgba(230,155,0,0.3)] hover:shadow-[0_4px_15px_rgba(230,155,0,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden p-1 border border-[#e6b400]/20">
+                            <img src="{{ asset('assets/images/icons/gudangmeme-icon.png') }}" alt="Logo" class="w-full h-full object-contain">
                         </div>
                         <span class="font-['Chewy'] text-2xl md:text-3xl tracking-wide">
                             <span class="bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] bg-clip-text text-transparent">Gudang</span><span class="bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] bg-clip-text text-transparent">Meme</span>

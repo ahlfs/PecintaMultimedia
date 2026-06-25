@@ -100,8 +100,10 @@
                 <div>
                     <label for="login" class="block text-sm font-semibold text-slate-700 mb-2">Username atau Email</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-user text-white bg-gradient-to-br from-[#e69b00] to-[#f59e0b] rounded-full w-8 h-8 flex items-center justify-center text-xs shadow-lg shadow-[#e69b00]/30 transition-all duration-300"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#e69b00] to-[#f59e0b] flex items-center justify-center shadow-lg shadow-[#e69b00]/30 transition-all duration-300">
+                                <i class="fa-solid fa-user text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="text"
@@ -126,8 +128,10 @@
                         <label for="password" class="block text-sm font-semibold text-slate-700">Kata Sandi</label>
                     </div>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-lock text-white bg-gradient-to-br from-[#e69b00] to-[#f59e0b] rounded-full w-8 h-8 flex items-center justify-center text-xs shadow-lg shadow-[#e69b00]/30 transition-all duration-300"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#e69b00] to-[#f59e0b] flex items-center justify-center shadow-lg shadow-[#e69b00]/30 transition-all duration-300">
+                                <i class="fa-solid fa-lock text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="password"

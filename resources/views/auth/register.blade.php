@@ -107,8 +107,10 @@
                 <div>
                     <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-signature text-white bg-[#e69b00] rounded-full w-8 h-8 flex items-center justify-center text-xs group-focus-within:bg-[#e6b400] transition-colors"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#e69b00] flex items-center justify-center group-focus-within:bg-[#e6b400] transition-colors shadow-lg shadow-[#e69b00]/25">
+                                <i class="fa-solid fa-signature text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="text"
@@ -132,8 +134,10 @@
                 <div>
                     <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Username</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-at text-white bg-[#e69b00] rounded-full w-8 h-8 flex items-center justify-center text-xs group-focus-within:bg-[#e6b400] transition-colors"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#e69b00] flex items-center justify-center group-focus-within:bg-[#e6b400] transition-colors shadow-lg shadow-[#e69b00]/25">
+                                <i class="fa-solid fa-at text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="text"
@@ -157,8 +161,10 @@
                 <div>
                     <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Alamat Email</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-envelope text-white bg-[#e69b00] rounded-full w-8 h-8 flex items-center justify-center text-xs group-focus-within:bg-[#e6b400] transition-colors"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#e69b00] flex items-center justify-center group-focus-within:bg-[#e6b400] transition-colors shadow-lg shadow-[#e69b00]/25">
+                                <i class="fa-solid fa-envelope text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="email"
@@ -182,8 +188,10 @@
                 <div>
                     <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Kata Sandi</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-lock text-white bg-[#e69b00] rounded-full w-8 h-8 flex items-center justify-center text-xs group-focus-within:bg-[#e6b400] transition-colors"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#e69b00] flex items-center justify-center group-focus-within:bg-[#e6b400] transition-colors shadow-lg shadow-[#e69b00]/25">
+                                <i class="fa-solid fa-lock text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="password"
@@ -213,8 +221,10 @@
                 <div>
                     <label for="password_confirmation" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Ulangi Kata Sandi</label>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-circle-check text-white bg-[#e69b00] rounded-full w-8 h-8 flex items-center justify-center text-xs group-focus-within:bg-[#e6b400] transition-colors"></i>
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                            <div class="w-8 h-8 rounded-full bg-[#e69b00] flex items-center justify-center group-focus-within:bg-[#e6b400] transition-colors shadow-lg shadow-[#e69b00]/25">
+                                <i class="fa-solid fa-circle-check text-white text-xs"></i>
+                            </div>
                         </div>
                         <input
                             type="password"

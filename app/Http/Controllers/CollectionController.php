@@ -63,7 +63,7 @@ class CollectionController extends Controller
     {
 
         // Jika koleksi rahasia dan bukan milik pengguna saat ini, batalkan akses (403)
-        if ($collection->is_private && $collection->user_id !== session('user_id')) {
+        if ($collection->is_private && $collection->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Koleksi ini bersifat rahasia.');
         }
 
@@ -79,7 +79,7 @@ class CollectionController extends Controller
     {
 
         // Validasi kepemilikan
-        if ($collection->user_id !== session('user_id')) {
+        if ($collection->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik koleksi ini.');
         }
 
@@ -93,7 +93,7 @@ class CollectionController extends Controller
     {
 
         // Validasi kepemilikan
-        if ($collection->user_id !== session('user_id')) {
+        if ($collection->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik koleksi ini.');
         }
 
@@ -123,7 +123,7 @@ class CollectionController extends Controller
     {
 
         // Validasi kepemilikan
-        if ($collection->user_id !== session('user_id')) {
+        if ($collection->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik koleksi ini.');
         }
 

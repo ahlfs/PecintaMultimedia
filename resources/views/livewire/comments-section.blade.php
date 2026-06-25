@@ -64,7 +64,7 @@
                         <p class="comment-body">{{ $comment->body }}</p>
                     </div>
                     {{-- Tombol hapus (pemilik komentar atau pemilik post) --}}
-                    @if(session('user_id') === $comment->user_id || session('user_id') === $post->user_id)
+                    @if(session('user_id') == $comment->user_id || session('user_id') == $post->user_id)
                         <button
                             wire:click="deleteComment({{ $comment->id }})"
                             wire:confirm="Hapus komentar ini?"

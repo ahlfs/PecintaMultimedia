@@ -106,7 +106,7 @@
             </div>
 
             {{-- Owner Operations --}}
-            @if($collection->user_id === session('user_id'))
+            @if($collection->user_id == session('user_id'))
                 <div class="flex items-center gap-3 self-start md:self-center">
                     <a
                         href="{{ route('collections.edit', $collection->slug) }}"
@@ -153,9 +153,9 @@
             </div>
         @else
             {{-- Pinterest-like Staggered Grid/Cards --}}
-            <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4">
+            <div class="columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4">
                 @foreach($posts as $post)
-                    <div class="break-inside-avoid overflow-hidden rounded-2xl group relative mb-4 shadow-sm hover:shadow-[0_10px_40px_rgba(230,155,0,0.15),0_0_20px_rgba(230,180,0,0.1)] hover:scale-[1.02] transition-all duration-300">
+                    <div class="break-inside-avoid overflow-hidden rounded-xl sm:rounded-2xl group relative mb-3 sm:mb-4 shadow-sm hover:shadow-[0_10px_40px_rgba(230,155,0,0.15),0_0_20px_rgba(230,180,0,0.1)] hover:scale-[1.02] transition-all duration-300">
                         {{-- Post Image & Overlay --}}
                         <a href="{{ route('posts.show', $post->slug) }}" class="block relative overflow-hidden bg-slate-100">
                             <img

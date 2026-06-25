@@ -92,7 +92,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // Validasi kepemilikan post
-        if ($post->user_id !== session('user_id')) {
+        if ($post->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik postingan ini.');
         }
 
@@ -112,7 +112,7 @@ class PostController extends Controller
     {
 
         // Validasi kepemilikan post
-        if ($post->user_id !== session('user_id')) {
+        if ($post->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik postingan ini.');
         }
 
@@ -165,7 +165,7 @@ class PostController extends Controller
     {
 
         // Validasi kepemilikan post
-        if ($post->user_id !== session('user_id')) {
+        if ($post->user_id != session('user_id')) {
             abort(403, 'Akses ditolak. Anda bukan pemilik postingan ini.');
         }
 
