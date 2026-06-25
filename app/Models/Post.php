@@ -37,6 +37,11 @@ class Post extends Model
     protected static function generateUniqueSlug($title, $id = 0)
     {
         $slug = \Illuminate\Support\Str::slug($title);
+
+        if (empty($slug)) {
+            $slug = 'post';
+        }
+
         $originalSlug = $slug;
         $count = 1;
 

@@ -37,6 +37,11 @@ class Collection extends Model
     protected static function generateUniqueSlug($name, $id = 0)
     {
         $slug = \Illuminate\Support\Str::slug($name);
+
+        if (empty($slug)) {
+            $slug = 'collection';
+        }
+
         $originalSlug = $slug;
         $count = 1;
 

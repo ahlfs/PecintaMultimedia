@@ -25,7 +25,7 @@
                 <img 
                     src="{{ asset($post->image_path) }}" 
                     alt="{{ $post->title }}" 
-                    class="max-w-full max-h-[600px] object-contain rounded-2xl shadow-2xl transition-transform duration-500"
+                    class="w-full max-h-[600px] object-contain rounded-2xl shadow-2xl transition-transform duration-500"
                 >
             </div>
 

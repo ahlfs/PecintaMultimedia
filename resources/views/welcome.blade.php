@@ -183,11 +183,9 @@
                                     <a href="{{ route('login') }}" class="relative font-semibold text-slate-600 nav-link-yellow hover:text-[#e69b00] transition-all duration-300 px-4 py-2 text-sm">
                                         Masuk
                                     </a>
-                                    @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
-                                            Mulai Eksplorasi
-                                        </a>
-                                    @endif
+                                    <a href="{{ route('feed') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] hover:from-[#e6b400] hover:via-[#e6cc00] hover:to-[#e5de00] hover:shadow-[0_0_20px_rgba(230,155,0,0.4)] hover:-translate-y-0.5 font-semibold text-sm shadow-lg shadow-[#e69b00]/20 transition-all duration-300 relative overflow-hidden btn-gradient-yellow">
+                                        Mulai Eksplorasi
+                                    </a>
                                 @endauth
                             @endif
                         </div>
@@ -240,12 +238,10 @@
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                     Masuk
                                 </a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] font-semibold text-sm shadow-md transition-all">
-                                        <i class="fa-solid fa-user-plus"></i>
+                                    <a href="{{ route('feed') }}" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white bg-gradient-to-br from-[#e69b00] via-[#e6b400] to-[#e6cc00] font-semibold text-sm shadow-md transition-all">
+                                        <i class="fa-solid fa-compass"></i>
                                         Mulai Eksplorasi
                                     </a>
-                                @endif
                             @endauth
                         @endif
                     </div>
