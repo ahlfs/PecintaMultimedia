@@ -147,7 +147,7 @@ class AuthController extends Controller
                 'name' => $googleUser->getName(),
                 'username' => $username,
                 'email' => $googleUser->getEmail(),
-                'password' => Hash::driver('argon2id')->make(Str::random(24)),
+                'password' => Str::random(24),
                 'profile_photo' => $googleUser->getAvatar(),
             ]);
         }
