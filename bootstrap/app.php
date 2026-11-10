@@ -18,7 +18,6 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->appendToGroup('web', \App\Http\Middleware\ShareAuthUser::class);
-        $middleware->validateCsrfTokens(except: ['sync-memes-secret']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
