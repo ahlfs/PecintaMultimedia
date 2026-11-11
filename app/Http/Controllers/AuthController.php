@@ -80,12 +80,12 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        // Buat user baru dengan hashing Argon2id eksplisit
+        // Buat user baru (password otomatis di-hash oleh cast 'hashed' pada model User)
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => Hash::driver('argon2id')->make($request->password),
+            'password' => $request->password,
         ]);
 
         // Set session user_id secara manual

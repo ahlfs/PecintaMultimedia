@@ -128,9 +128,9 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->bio = $request->bio;
 
-        // Perbarui password jika diisi
+        // Perbarui password jika diisi (otomatis di-hash oleh cast 'hashed' pada model User)
         if ($request->filled('password')) {
-            $user->password = Hash::driver('argon2id')->make($request->password);
+            $user->password = $request->password;
         }
 
         $user->save();
